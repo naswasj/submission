@@ -6,8 +6,8 @@ import seaborn as sns
 # Load dataset
 @st.cache_data
 def load_data():
-    day_df = pd.read_csv("data/day.csv")
-    hour_df = pd.read_csv("data/hour.csv")
+    day_df = pd.read_csv("https://raw.githubusercontent.com/naswasj/submission/main/data/day.csv")
+    hour_df = pd.read_csv("https://raw.githubusercontent.com/naswasj/submission/main/data/hour.csv")
     
     # Mapping season and day type
     season_mapping = {1: "Musim Dingin", 2: "Musim Semi", 3: "Musim Panas", 4: "Musim Gugur"}
