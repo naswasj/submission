@@ -1,0 +1,1 @@
+tujuan menggunakan analisis lanjutan dengan menggunakan time series analysis yaitu agar dapat melihat pola penyewaan berdasarkan musim. Kemudian untuk Clustering Manual yaitu untuk membagi hari menjadi rendah, sedang, dan tinggi berdasarkan jumlah penyewaan. Lalu ada kombinasi kedua analisis yaitu untuk menampilkan jumlah hari dalam tiap kategor penyewaan berdasarkan musim
