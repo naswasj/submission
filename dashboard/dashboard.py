@@ -16,6 +16,30 @@ def load_data():
     hour_df["season"] = hour_df["season"].map(season_mapping)
     hour_df["day_type"] = hour_df["holiday"].map({1: "Hari Libur", 0: "Hari Kerja"})
     
+    # Kategorisasi jumlah penyewaan
+    def categorize_rentals(cnt):
+        if cnt < 2000:
+            return "Low"
+        elif 2000 <= cnt < 5000:
+            return "Medium"
+        else:
+            return "High"
+    
+    day_df["rental_category"] = day_df["cnt"].apply(categorize_rentals)
+    
+    # Kategorisasi waktu per jam
+    def categorize_hour(hr):
+        if 0 <= hr < 6:
+            return "Malam"
+        elif 6 <= hr < 12:
+            return "Pagi"
+        elif 12 <= hr < 18:
+            return "Siang"
+        else:
+            return "Sore"
+    
+    hour_df["time_category"] = hour_df["hr"].apply(categorize_hour)
+    
     return day_df, hour_df
 
 # Load data
@@ -29,7 +53,7 @@ dataset_option = st.sidebar.radio("Pilih Dataset:", ["Harian (day_df)", "Jam (ho
 
 # Sidebar untuk memilih jenis visualisasi
 st.sidebar.header("Pilih Visualisasi")
-option = st.sidebar.radio("Pilih grafik:", ["Pengaruh Musim", "Hari Kerja vs Hari Libur", "Distribusi Penyewaan"])
+option = st.sidebar.radio("Pilih grafik:", ["Pengaruh Musim", "Hari Kerja vs Hari Libur", "Distribusi Penyewaan", "Distribusi Kategori Waktu"])
 
 # Menentukan dataset yang digunakan
 if dataset_option == "Harian (day_df)":
@@ -64,3 +88,15 @@ elif option == "Distribusi Penyewaan":
     ax.set_ylabel("Jumlah Hari")
     ax.set_title("Distribusi Penyewaan berdasarkan Musim")
     st.pyplot(fig)
+
+elif option == "Distribusi Kategori Waktu":
+    if dataset_option == "Jam (hour_df)":
+        st.subheader("Distribusi Penyewaan berdasarkan Kategori Waktu")
+        fig, ax = plt.subplots(figsize=(8, 5))
+        sns.countplot(x="time_category", hue="season", data=df, palette="coolwarm", ax=ax)
+        ax.set_xlabel("Kategori Waktu")
+        ax.set_ylabel("Jumlah Penyewaan")
+        ax.set_title("Distribusi Penyewaan berdasarkan Kategori Waktu")
+        st.pyplot(fig)
+    else:
+        st.warning("Visualisasi ini hanya tersedia untuk dataset jam (hour_df).")
